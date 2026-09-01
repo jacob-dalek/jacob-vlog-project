@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 <!-- 
 <div class="card bg-base-100 w-96 shadow-sm">
@@ -31,7 +32,8 @@
             </div>
 
             <div class="flex items-center justify-center w-full mt-6 lg:mt-0 lg:w-1/2">
-                <img class="w-full h-full lg:max-w-3xl" src="https://merakiui.com/images/components/Catalogue-pana.svg" alt="Catalogue-pana.svg">
+                {% load static %}
+                <img class="w-full h-full lg:max-w-3xl" src="{% static 'app/jacob_and_tink.jpg' %}" alt="jacob_and_tink.jpg">
             </div>
         </div>
     </div>
