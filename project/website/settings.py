@@ -42,11 +42,10 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 INSTALLED_APPS = [
     'app',
+    
     'allauth',
     'allauth.account',
-    "django_htmx",
-    'django_viewcomponent',       # new
-    'django_formify',  
+    "django_htmx",  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
