@@ -1,18 +1,50 @@
 {% extends 'base.html' %}
-
 {% load tailwind_filters %}
+
+{% partialdef success-message %}
+
+
+<hx-partial hx-target="#success-message">
+  <div role="alert" class="alert alert-success" id="alert">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span>Post has been created!</span>
+  </div>
+  <script>
+    setTimeout(() => {
+      const alert = document.getElementById("alert")
+      alert.remove();
+    }, 2000);
+
+  </script>
+</hx-partial>
+
+{% endpartialdef %}
+
+<div id="#success-message" remove-me="1s">
+
+  
+
+</div>
+
+
 {% block content %}
-<div class="w-full max-w-3xl mx-auto px-4">
-  <h1 class="text-3xl text-center pt-10">Create a post</h1>
-  <form method="post">
+  <form hx-post="{% url 'create_post' %}" hx-swap="beforebegin" hx-swap-oob="true">
+    <div class="w-full max-w-3xl mx-auto px-4">
+  
+    <h1 class="text-3xl text-center pt-10">Create a post</h1>
+
     
     {% csrf_token %}
     
      {{ form|crispy }}
-     <input type="submit" class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" value="Post" />
-    
+     <input type="submit"
+     class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" value="Post" />
+     
 
-    
+      </div>
   </form>
-</div>
+
+
 {% endblock %}
