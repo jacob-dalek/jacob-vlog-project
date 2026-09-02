@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=128, blank=True)
+    can_post = models.BooleanField(default=False) # needs to be authorized by an admin
 
     def get_username(self):
         return self.user.username
