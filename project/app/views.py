@@ -4,11 +4,13 @@ from app.models import Post, UserProfile
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from app.decorators import user_can_post
 
 def index(request):
     return render(request, "app/index.html")
 
 @login_required
+@user_can_post # custom dec
 def create_post(request):
 
     current_user = User.objects.get(id=request.user.id)
