@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from app.forms import PostForm
 from app.models import Post, UserProfile
 from django.contrib.auth.models import User
@@ -14,8 +14,6 @@ def index(request):
 # @user_can_post # custom decorator 
 def create_post(request):
 
-    current_user = User.objects.get(id=request.user.id)
-    UserProfile.objects.get_or_create(user=current_user) # create user_profile instance  
 
     context = {}
     form = PostForm()
@@ -23,9 +21,10 @@ def create_post(request):
         form = PostForm(request.POST)
         if form.is_valid():
              new_post = form.save(commit=False)
-             new_post.user_id = UserProfile.objects.get(user=current_user).id
+             new_post.user_id = request.user.userprofile.id
              form.save()
-             return render(request, "app/create_post.html#success-message", context)
+             context["message"] = f"{new_post.Title} Successfully Created!"
+             return render(request, "app/create_post.html#alert", context)
 
     context["form"] = form
 
@@ -33,4 +32,36 @@ def create_post(request):
 
 @login_required
 def user_posts(request):
-    pass
+    context = {}
+    post_arr = Post.objects.filter(user=request.user.userprofile).all()
+    context["post_arr"] = post_arr
+    return render(request, "app/user_posts.html", context)
+
+@login_required
+@require_http_methods(["DELETE"])
+def delete_post(request, pk):
+    context = {}
+    post = get_object_or_404(Post, pk=pk, user=request.user.userprofile)
+    post.delete()
+
+    context["message"] = f"{post.Title} Successfully Deleted!"
+
+    return render(request, "app/user_posts.html#delete_post", context)
+
+def update_post(request, pk):
+    post = get_object_or_404(Post, pk=pk, user=request.user.userprofile)
+    if request.method == "POST":
+        form = Post(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+
+    context = {
+        "form": Post(instance=post),
+        "post": post
+    }
+    
+    return render(request, "app/user_posts.html#update_post", context)
+
+
+
+

@@ -33,7 +33,7 @@ class Post(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __repr__(self):
-        return f"{self.title}"
+        return f"{self.Title}"
     
     def __str__(self):
-        return  f"{self.title}"
+        return  f"{self.Title}"

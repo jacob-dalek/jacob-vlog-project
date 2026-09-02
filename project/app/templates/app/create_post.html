@@ -1,36 +1,20 @@
 {% extends 'base.html' %}
 {% load tailwind_filters %}
 
-{% partialdef success-message %}
+{% partialdef alert %}
 
-
-<hx-partial hx-target="#success-message">
-  <div role="alert" class="alert alert-success" id="alert">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-    <span>Post has been created!</span>
-  </div>
-  <script>
-    setTimeout(() => {
-      const alert = document.getElementById("alert")
-      alert.remove();
-    }, 2000);
-
-  </script>
-</hx-partial>
+{% include 'components/alert.html'%}
 
 {% endpartialdef %}
 
-<div id="#success-message" remove-me="1s">
 
-  
+<div id="#alert">
 
 </div>
 
 
 {% block content %}
-  <form hx-post="{% url 'create_post' %}" hx-swap="beforebegin" hx-swap-oob="true">
+  <form hx-post="{% url 'create_post' %}" hx-swap="beforebegin" hx-swap-oob="true" hx-on::after-request="if(event.detail.successful) this.reset()">
     <div class="w-full max-w-3xl mx-auto px-4">
   
     <h1 class="text-3xl text-center pt-10">Create a post</h1>
