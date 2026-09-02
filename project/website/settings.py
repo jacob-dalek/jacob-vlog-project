@@ -41,9 +41,13 @@ ACCOUNT_UNIQUE_EMAIL = True
 # Application definition
 
 INSTALLED_APPS = [
+    
     'app',
+    "allauth_ui",
     'allauth',
     'allauth.account',
+    "widget_tweaks",
+    "slippers",
     "django_htmx",  
     'django.contrib.admin',
     'django.contrib.auth',
