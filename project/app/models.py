@@ -15,12 +15,21 @@ class UserProfile(models.Model):
         return f"{self.get_username()}"
 
 class Post(models.Model):
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.title = self.title
+    #     self.desc = self.desc
+    #     self.user = self.user
+
     title = models.CharField(name="Title", blank=False) # may need to reconsider constructor args
     desc = models.TextField(name="Description", 
                             blank=False, 
-                            max_length=500)
+                            max_length=500,
+                            )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    likes = models.IntegerField(default=0)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __repr__(self):

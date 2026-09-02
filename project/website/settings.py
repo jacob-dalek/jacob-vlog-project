@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.account',
     "widget_tweaks",
     "slippers",
+    'crispy_forms',
+    "crispy_tailwind",
     "django_htmx",  
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +58,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+AUTH_PROFILE_MODULE = 'myapp.UserProfile'
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
