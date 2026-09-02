@@ -1,17 +1,23 @@
 <div class="navbar bg-base-100 shadow-sm">
   <div class="flex-1">
-    <a class="btn btn-ghost text-xl">Jacobsite</a>
+    <p class="text-xl">Jacobsite</p>
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
       <li><a>Home</a></li>
       <li><a>About</a></li>
       <li>
+        {% if user.is_authenticated %}
+
         <details>
-          <summary>Account</summary>
-          <ul class="bg-base-100 rounded-t-none p-2">
-            <li><a>Profile</a></li>
-            <li><a>Sign Out</a></li>
+            <summary>Account</summary>
+            <ul class="bg-base-100 rounded-t-none p-2">
+              <li><a>Profile</a></li>
+              <li><a>Sign Out</a></li>
+        {% endif %}
+        <li><a href="{% url 'account_login' %}">Sign up</a></li>
+
+
           </ul>
         </details>
       </li>
