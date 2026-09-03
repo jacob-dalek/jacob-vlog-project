@@ -3,53 +3,65 @@
 
 {% partialdef post_list %}
 
-    {% include 'components/post_array.html'%}
+{% include 'components/post_array.html'%}
+
 
 {% endpartialdef %}
 
 {% partialdef update_post %}
 
-  <form hx-post="{% url 'update_post' post.pk %}">
+<form hx-post="{% url 'update_post' post.pk %}">
     <div class="w-full max-w-3xl mx-auto px-4">
-  
-    <h1 class="text-3xl text-center pt-10">Update post</h1>
 
-    
-    {% csrf_token %}
-    
-     {{ form|crispy }}
-     <input type="submit"
-     class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" value="Post" />
-     
+        <h1 class="text-3xl text-center pt-10">Update <span class="font-bold">{{post.Title}}</span></h1>
 
-      </div>
-  </form>
+
+        {% csrf_token %}
+
+        {{ form|crispy }}
+        <input type="submit"
+            class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+            value="Post" />
+
+
+    </div>
+</form>
+
 
 
 
 {% endpartialdef %}
 
 {% partialdef post_updated %}
+{% include 'components/alert.html'%}
 
-<li>
-                    <h2 class="card-title">{{post.Title}}</h2>
-                    <p>{{post.Description}}</p>
-                    <p>{{post.created_at}}</p>
-                    <button class="btn btn-error" hx-delete="{% url 'delete_post' post.pk %}"
-                        hx-confirm="Are you sure you want delete {{post.Title}}?" hx-swap="outerHTML" hx-target="closest li">Delete</button>
-                    <button class="btn btn-info" hx-post="{% url 'update_post' post.pk %}" hx-swap="outerHTML"  hx-target="closest li">Update</button>
+    {% include 'components/card_format.html'%}
 
-                </li>
 
 {% endpartialdef %}
 
 
 {% block content %}
-    <div class="flex flex-items-center px-4 py-12 mx-auto text-center">
-            {% partial post_list %}
 
 
-    
+<div class="container px-6 py-16 mx-auto">
+
+    <div class="items-center lg:flex">
+        <div class="w-full lg:w-1/2">
+            <div class="lg:max-w-lg">
+    <h1 class="text-5xl text-center pt-10">View posts</h1>
+
+                {% partial post_list %}
+                
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center w-full mt-6 lg:mt-0 lg:w-1/2">
+            {% load static %}
+                <img class="w-200 lg:max-w-100" src="{% static 'app/jacob_and_tink.jpg' %}" alt="jacob_and_tink.jpg">
+        </div>
+    </div>
+</div>
 </div>
 
 {% endblock %}

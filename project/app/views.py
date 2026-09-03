@@ -17,6 +17,8 @@ def create_post(request):
 
     context = {}
     post_arr = Post.objects.filter(user=request.user.userprofile).all()
+    
+
 
     form = PostForm()
     if request.method == "POST":
@@ -29,6 +31,7 @@ def create_post(request):
              return render(request, "app/create_post.html#alert", context)
 
     context["form"] = form
+
 
     return render(request, "app/create_post.html", context)
 
@@ -61,13 +64,15 @@ def update_post(request, pk):
             print("hello!")
 
             context = {
-                            "post": post
+                            "post": post,
+                            "message": f"{post.Title} Successfully Updated!"
+
                         }
             return render(request, "app/user_posts.html#post_updated", context)
             
         else:
             context = {
-                "form": form,
+                "form": PostForm(instance=post),
                 "post": post
             }
             return render(request, "app/user_posts.html#update_post", context)
