@@ -5,9 +5,11 @@
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
       <li><a href="{% url 'index' %}" >Home</a></li>
-      <li><a>About</a></li>
+      {% if user.is_authenticated %}
+
+      <li><a href="{% url 'create_post' %}" >Create Post</a></li>
+      <li><a href="{% url 'my_posts' %}" >View Posts</a></li>
       <li>
-        {% if user.is_authenticated %}
 
         <details>
             <summary>Account</summary>

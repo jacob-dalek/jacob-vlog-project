@@ -16,6 +16,8 @@ def create_post(request):
 
 
     context = {}
+    post_arr = Post.objects.filter(user=request.user.userprofile).all()
+
     form = PostForm()
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -35,11 +37,8 @@ def user_posts(request):
     context = {}
     post_arr = Post.objects.filter(user=request.user.userprofile).all()
     context["post_arr"] = post_arr
-
-    # if not post_arr:
-    #     return render(request, "app/user_posts.html#no_posts", context)
-
-
+    context["count"] = len(post_arr)
+    
     return render(request, "app/user_posts.html", context)
 
 @login_required
@@ -53,17 +52,32 @@ def delete_post(request, pk):
     return render(request, "app/user_posts.html#post_list", context)
 
 def update_post(request, pk):
+    context = {}
     post = get_object_or_404(Post, pk=pk, user=request.user.userprofile)
     if request.method == "POST":
-        form = Post(request.POST, instance=post)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
+            print("hello!")
+
+            context = {
+                            "post": post
+                        }
+            return render(request, "app/user_posts.html#post_updated", context)
+            
+        else:
+            context = {
+                "form": form,
+                "post": post
+            }
+            return render(request, "app/user_posts.html#update_post", context)
 
     context = {
-        "form": Post(instance=post),
-        "post": post
-    }
-    
+                "form": PostForm(instance=post),
+                "post": post
+            }
+        
+
     return render(request, "app/user_posts.html#update_post", context)
 
 
