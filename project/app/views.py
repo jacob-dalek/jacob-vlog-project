@@ -35,6 +35,11 @@ def user_posts(request):
     context = {}
     post_arr = Post.objects.filter(user=request.user.userprofile).all()
     context["post_arr"] = post_arr
+
+    # if not post_arr:
+    #     return render(request, "app/user_posts.html#no_posts", context)
+
+
     return render(request, "app/user_posts.html", context)
 
 @login_required
@@ -43,10 +48,9 @@ def delete_post(request, pk):
     context = {}
     post = get_object_or_404(Post, pk=pk, user=request.user.userprofile)
     post.delete()
-
     context["message"] = f"{post.Title} Successfully Deleted!"
 
-    return render(request, "app/user_posts.html#delete_post", context)
+    return render(request, "app/user_posts.html#post_list", context)
 
 def update_post(request, pk):
     post = get_object_or_404(Post, pk=pk, user=request.user.userprofile)

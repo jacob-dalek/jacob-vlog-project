@@ -1,0 +1,15 @@
+<ul>
+    {% for post in post_arr %}
+
+    <li>
+        <h2 class="card-title">{{post.Title}}</h2>
+        <p>{{post.Description}}</p>
+        <p>{{post.created_at}}</p>
+        <button class="btn btn-error" hx-delete="{% url 'delete_post' post.pk %}"
+            hx-confirm="Are you sure you want delete {{post.Title}}?" hx-swap="outerHTML" hx-target="closest li">Delete</button>
+        <button class="btn btn-info" hx-swap="outerHTML" hx-target="closest li">Update</button>
+
+    </li>
+    {% endfor %}
+</ul>
+
