@@ -14,13 +14,10 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.get_username()}"
 
-class Post(models.Model):
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.title = self.title
-    #     self.desc = self.desc
-    #     self.user = self.user
+
+
+class Post(models.Model):
 
     title = models.CharField(name="Title", blank=False) # may need to reconsider constructor args
     desc = models.TextField(name="Description", 
@@ -37,3 +34,9 @@ class Post(models.Model):
     
     def __str__(self):
         return  f"{self.Title}"
+
+class Comment(models.Model):
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)

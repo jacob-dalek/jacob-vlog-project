@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, render
-from app.forms import PostForm
-from app.models import Post, UserProfile
-from django.contrib.auth.models import User
+from app.forms import PostForm, CommentForm
+from app.models import Post, UserProfile, Comment
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from app.decorators import user_can_post
@@ -13,13 +12,7 @@ def index(request):
 @login_required
 # @user_can_post # custom decorator 
 def create_post(request):
-
-
     context = {}
-    post_arr = Post.objects.filter(user=request.user.userprofile).all()
-    
-
-
     form = PostForm()
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -36,11 +29,29 @@ def create_post(request):
     return render(request, "app/create_post.html", context)
 
 @login_required
+@require_http_methods(["POST"])
+def post_comment(request):
+    context = {}
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user_id = request.user.userprofile.id
+            form.save()
+
+    context["form"] = form
+
+    return render(request, "app/comment.html", context)
+
+@login_required
 def user_posts(request):
     context = {}
     post_arr = Post.objects.filter(user=request.user.userprofile).all()
     context["post_arr"] = post_arr
     context["count"] = len(post_arr)
+
+    print(post_arr[0].comment_set.all())
     
     return render(request, "app/user_posts.html", context)
 
