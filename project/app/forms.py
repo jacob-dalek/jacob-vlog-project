@@ -9,8 +9,6 @@ class PostForm(ModelForm):
         self.helper = FormHelper()
         self.helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
 
-
-        
     class Meta:
         model = Post
         fields = ["Title", "Description"]
