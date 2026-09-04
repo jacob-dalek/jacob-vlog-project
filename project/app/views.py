@@ -28,21 +28,36 @@ def create_post(request):
 
     return render(request, "app/create_post.html", context)
 
+
 @login_required
-@require_http_methods(["POST"])
-def post_comment(request):
+def post_comment(request, pk):
     context = {}
+    post = get_object_or_404(Post, pk=pk, user=request.user.userprofile)
     form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user_id = request.user.userprofile.id
+            comment.post_id = post.id
             form.save()
 
-    context["form"] = form
+            context = {
+                            "form": form,
+                            "post": post
+                        }
 
-    return render(request, "app/comment.html", context)
+
+            return render(request, "app/user_posts.html#comment_post", context)
+
+    context = {
+                                "form": form,
+                                "post": post
+                            }
+
+
+    return render(request, "app/user_posts.html#comment_post", context)
+
 
 @login_required
 def user_posts(request):
@@ -51,7 +66,7 @@ def user_posts(request):
     context["post_arr"] = post_arr
     context["count"] = len(post_arr)
 
-    print(post_arr[0].comment_set.all())
+    # print(post_arr[0].comment_set.all())
     
     return render(request, "app/user_posts.html", context)
 
@@ -72,8 +87,6 @@ def update_post(request, pk):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            print("hello!")
-
             context = {
                             "post": post,
                             "message": f"{post.Title} Successfully Updated!"
@@ -92,7 +105,6 @@ def update_post(request, pk):
                 "form": PostForm(instance=post),
                 "post": post
             }
-        
 
     return render(request, "app/user_posts.html#update_post", context)
 

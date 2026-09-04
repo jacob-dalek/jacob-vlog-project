@@ -36,7 +36,7 @@ class Post(models.Model):
         return  f"{self.Title}"
 
 class Comment(models.Model):
-    comment = models.TextField(blank=True)
+    comment = models.TextField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)

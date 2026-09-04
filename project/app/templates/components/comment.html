@@ -1,0 +1,17 @@
+{% load tailwind_filters %}
+
+
+<form hx-post="{% url 'comment' post.pk %}">
+  {% csrf_token %}
+     {{ form|crispy }}
+
+
+  <div class="pt-2">
+    <button
+      class="px-5 py-2 text-sm font-medium tracking-wider text-center text-white transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700">Comment</button>
+
+  </div>
+
+</form>
+
+<!-- -->
