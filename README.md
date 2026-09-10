@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/72f795f5-ecfc-4c83-8c4c-fd037cbfcfc4
+
 this project is a work in progress!
 
 very generic blog site 
