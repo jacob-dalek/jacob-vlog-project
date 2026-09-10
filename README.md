@@ -4,5 +4,5 @@ very generic blog site
 
 To install - pip install requirement.txt in a env of your choosing.
 
-Then run manage.py runserver
+Then enter the project dir and run manage.py runserver
 
